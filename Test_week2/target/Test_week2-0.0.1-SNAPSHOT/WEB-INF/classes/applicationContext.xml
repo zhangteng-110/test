@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- 扫描业务层和数据层组件 -->
+	<context:component-scan base-package="com.bw" />
+
+	<!-- 创建数据源（数据连接池使用dbcp） -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/cms?characterEncoding=utf-8" />
+		<property name="username" value="root" />
+		<property name="password" value="910547570" />
+	</bean>
+
+	<!-- 创建sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 引入数据库连接池 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 别名包 -->
+		<property name="typeAliasesPackage">
+			<value>com.bw.bean</value>
+		</property>
+		<!-- 关联mybatis的子映射文件 -->
+		<property name="mapperLocations">
+			<value>classpath:mappers/*.xml</value>
+		</property>
+
+		<!-- spring整合分页插件 -->
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<props>
+							<prop key="dialect">mysql</prop>
+							<prop key="supportMethodsArguments">true</prop>
+						</props>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<!-- 扫描mybatis操作数据库的接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage">
+			<value>com.bw.mapper</value>
+		</property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 事务管理器 切面 -->
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 事务的注解驱动 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- 第一个*:任意的返回值类型 或者任意的访问修饰符 第二*： 包下任意的类或者接口 第三*：任意方法名称 .. ：方法中参数随意 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.bw.service.*.*(..))"
+			id="trPointcut" />
+		<aop:advisor advice-ref="trAdvice" pointcut-ref="trPointcut" />
+	</aop:config>
+
+	<!-- 事务的增强的配置 -->
+	<tx:advice id="trAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" /> 
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="call*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+</beans>
