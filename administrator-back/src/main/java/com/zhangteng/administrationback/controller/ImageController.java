@@ -34,7 +34,7 @@ public class ImageController {
         }
         String uuid = UUID.randomUUID().toString();
         String name = String.format("%s.%s", uuid, ext);
-        String path = String.format("www/image/%s", name);
+        String path = String.format("/static/%s", name);
         try {
             FileOutputStream fos = new FileOutputStream(path);
             byte[] data = image.getBytes();
