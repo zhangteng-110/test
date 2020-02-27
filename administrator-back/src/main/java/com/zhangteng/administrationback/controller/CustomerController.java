@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin
 public class CustomerController {
     @GetMapping("/search")
     public PageOutDTO<CustomerListOutDTO> search(CustomerSearchInDTO customerSearchInDTO,@RequestParam Integer pageNum){

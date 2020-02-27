@@ -19,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/administrator")
+@CrossOrigin
 public class AdministratorController {
     @GetMapping("/login")
     public String login(AdministratorLoginDTO administratorLoginDTO){

@@ -16,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/returnhistory")
+@CrossOrigin
 public class ReturnHistoryController {
     @GetMapping("/getListByReturnId")
     public List<ReturnHistoryListOutDTO> getListByReturnId(@RequestParam Integer returnId){
