@@ -22,9 +22,15 @@ var app = new Vue({
         mainFileList: [],
         otherFileList: []
     },
+    mounted() {
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    },
     methods: {
         handleCreateClick() {
             console.log('create click');
+            this.description = tinyMCE.activeEditor.getContent();
             this.createProduct();
         },
         handleOnMainChange(val) {
