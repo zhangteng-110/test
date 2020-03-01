@@ -1,10 +1,14 @@
 package com.zhangteng.administrationback.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.zhangteng.administrationback.constant.ClientExceptionConstant;
 import com.zhangteng.administrationback.dto.in.*;
-import com.zhangteng.administrationback.dto.out.AdministratorGetProfileOutDTO;
-import com.zhangteng.administrationback.dto.out.AdministratorListOutDTO;
-import com.zhangteng.administrationback.dto.out.AdministratorShowOutDTO;
-import com.zhangteng.administrationback.dto.out.PageOutDTO;
+import com.zhangteng.administrationback.dto.out.*;
+import com.zhangteng.administrationback.exception.ClientException;
+import com.zhangteng.administrationback.po.Administrator;
+import com.zhangteng.administrationback.service.AdministratorService;
+import com.zhangteng.administrationback.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,17 +25,37 @@ import java.util.List;
 @RequestMapping("/administrator")
 @CrossOrigin
 public class AdministratorController {
+    @Autowired
+    private AdministratorService administratorService;
+    @Autowired
+    private JWTUtil jwtUtil;
     @GetMapping("/login")
-    public String login(AdministratorLoginDTO administratorLoginDTO){
-        return null;
-    }
-    @PostMapping("/updateProdfile")
-    public void updateProdfile(@RequestBody AdministratorUpdateProfileDTO administratorUpdateProfileDTO){
+    public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
+        Administrator administrator = administratorService.getByUsername(administratorLoginInDTO.getUsername());
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encPwdDB = administrator.getEncryptedPassword();
+        BCrypt.Result result = BCrypt.verifyer().verify(administratorLoginInDTO.getPassword().toCharArray(), encPwdDB);
 
+        if (result.verified) {
+            AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
+            return administratorLoginOutDTO;
+        }else {
+            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+        }
     }
+
     @GetMapping("/getProfile")
-    public AdministratorGetProfileOutDTO getProfile(@RequestParam(required = false) Integer adminstratorId){
+    public AdministratorGetProfileOutDTO getProfile(@RequestAttribute Integer administratorId){
+
         return null;
+    }
+
+    @PostMapping("/updateProfile")
+    public void updateProfile(@RequestBody AdministratorUpdateProfileInDTO administratorUpdateProfileInDTO,
+                              @RequestAttribute Integer administratorId){
+
     }
     @GetMapping("/getPwdResetCode")
     public String getPwdResetCode(@RequestParam String email){
