@@ -18,7 +18,7 @@
         <el-input v-model="stockQuantity" placeholder="请输入库存量" style="width: 200px;"></el-input><br>
         <el-input v-model="rewordPoints" placeholder="请输入积分" style="width: 200px;"></el-input><br>
         <el-input v-model="sortOrder" placeholder="请输入排序" style="width: 200px;"></el-input><br>
-        <!-- <el-input v-model="description" type="textarea" placeholder="请输入描述" style="width: 600px;"></el-input><br> -->
+        <el-input v-model="productAbstract" type="textarea" placeholder="请输入商品摘要" style="width: 600px;"></el-input><br>
         <textarea id="mytextarea" placeholder="请输入描述"></textarea>
         <el-select v-model="selectedStatus" placeholder="请选择状态" style="width: 200px;">
             <el-option v-for="item in statuses" :key="item.value" :label="item.label" :value="item.value">
