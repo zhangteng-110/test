@@ -1,7 +1,10 @@
 package com.zhangteng.administrationback.dao;
 
+import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.po.Administrator;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AdministratorMapper {
@@ -18,4 +21,8 @@ public interface AdministratorMapper {
     int updateByPrimaryKey(Administrator record);
 
     Administrator selectByUsername(String username);
+
+    void batchDelete(List<Integer> administratorIds);
+
+    Page<Administrator> selectList();
 }
