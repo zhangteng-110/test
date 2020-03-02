@@ -131,7 +131,7 @@ public class AdministratorController {
 
         return administratorId;
     }
-
+    
     //更新信息
     @PostMapping("/update")
     public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
