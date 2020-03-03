@@ -9,7 +9,9 @@ var app = new Vue({
         description: '',
         stockQuantity: '',
         mainPicUrl: '',
-        otherPicUrls: []
+        otherPicUrls: [],
+        Quantity: 1,
+        myShoppingCart: []
     },
     computed:{
         otherPicUrlsJson(){
@@ -18,6 +20,9 @@ var app = new Vue({
     },
     mounted(){
         console.log('view mounted');
+
+        var myShoppingCartJson = localStorage['myShoppingCartJson'];
+        this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson):[];
 
         var url = new URL(location.href);
         this.productId = url.searchParams.get("productId");
@@ -51,6 +56,21 @@ var app = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 });
+        },
+        handleAddToCartClick(){
+            console.log('add to cart click')
+            var newProduct={
+                
+                productId: 123, 
+                productName: 'zhangsan',
+                productCode: '1001',
+                mainPicUrl: 'http://123.jpg',
+                unitPrice: 200,
+                quantity: 5,
+                totalPrice: 1000
+            }
+            this.myShoppingCart.push(newProduct);
+            localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
         }
     }
 })
