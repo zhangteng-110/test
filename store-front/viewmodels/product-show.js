@@ -10,7 +10,7 @@ var app = new Vue({
         stockQuantity: '',
         mainPicUrl: '',
         otherPicUrls: [],
-        Quantity: 1,
+        quantity: 1,
         myShoppingCart: []
     },
     computed:{
@@ -22,7 +22,7 @@ var app = new Vue({
         console.log('view mounted');
 
         var myShoppingCartJson = localStorage['myShoppingCartJson'];
-        this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson):[];
+        this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
 
         var url = new URL(location.href);
         this.productId = url.searchParams.get("productId");
@@ -61,14 +61,14 @@ var app = new Vue({
             console.log('add to cart click')
             var newProduct={
                 
-                productId: 123, 
-                productName: 'zhangsan',
-                productCode: '1001',
-                mainPicUrl: 'http://123.jpg',
-                unitPrice: 200,
-                quantity: 5,
-                totalPrice: 1000
+                productId: this.productId, 
+                productName: this.productName,
+                productCode: this.productCode,
+                mainPicUrl: this.mainPicUrl,
+                unitPrice: this.price,
+                quantity: this.quantity,
             }
+            newProduct.totalPrice = this.price*this.quantity
             this.myShoppingCart.push(newProduct);
             localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
         }
