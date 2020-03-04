@@ -66,7 +66,8 @@ var app = new Vue({
             if (newProduct) {
                 console.log('cart product exist');
                 var originQuantity = parseInt(newProduct.quantity);
-                newProduct.quantity = originQuantity + this.quantity;
+                var addQuantity = parseInt(this.quantity);
+                newProduct.quantity = originQuantity + addQuantity;
             }else{
                 newProduct = {
                     productId: this.productId,
