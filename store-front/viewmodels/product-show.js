@@ -59,18 +59,28 @@ var app = new Vue({
         },
         handleAddToCartClick(){
             console.log('add to cart click')
-            var newProduct={
-                
-                productId: this.productId, 
-                productName: this.productName,
-                productCode: this.productCode,
-                mainPicUrl: this.mainPicUrl,
-                unitPrice: this.price,
-                quantity: this.quantity,
+            
+            var myShoppingCartJson = localStorage['myShoppingCartJson'];
+            this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
+            var newProduct = this.myShoppingCart.find(p => p.productId === this.productId);
+            if (newProduct) {
+                console.log('cart product exist');
+                var originQuantity = parseInt(newProduct.quantity);
+                newProduct.quantity = originQuantity + this.quantity;
+            }else{
+                newProduct = {
+                    productId: this.productId,
+                    productName: this.productName,
+                    productCode: this.productCode,
+                    mainPicUrl: this.mainPicUrl,
+                    unitPrice: this.price,
+                    quantity: this.quantity,
+                }
+                this.myShoppingCart.push(newProduct);
             }
-            newProduct.totalPrice = this.price*this.quantity
-            this.myShoppingCart.push(newProduct);
+            
             localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
+            this.$message.success("商品已加入购物车");
         }
     }
 })
