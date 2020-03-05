@@ -1,19 +1,21 @@
 package com.zhangteng.storeback.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhangteng.storeback.dao.OrderDetailMapper;
 import com.zhangteng.storeback.dao.OrderMapper;
 import com.zhangteng.storeback.dto.in.OrderCheckoutInDTO;
 import com.zhangteng.storeback.dto.in.OrderProductInDTO;
+import com.zhangteng.storeback.dto.out.OrderHistoryListOutDTO;
+import com.zhangteng.storeback.dto.out.OrderShowOutDTO;
 import com.zhangteng.storeback.enumeration.OrderStatus;
-import com.zhangteng.storeback.po.Address;
-import com.zhangteng.storeback.po.Order;
-import com.zhangteng.storeback.po.OrderDetail;
-import com.zhangteng.storeback.po.Product;
+import com.zhangteng.storeback.po.*;
 import com.zhangteng.storeback.service.AddressService;
+import com.zhangteng.storeback.service.OrderHistoryService;
 import com.zhangteng.storeback.service.OrderService;
 import com.zhangteng.storeback.service.ProductService;
-import com.zhangteng.storeback.vo.OrderProductVo;
+import com.zhangteng.storeback.vo.OrderProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +42,15 @@ public class OrderServiceImpl implements OrderService {
     private ProductService productService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private OrderHistoryService orderHistoryService;
     @Override
     @Transactional
     public Long create(OrderCheckoutInDTO orderCheckoutInDTO,Integer customerId) {
         List<OrderProductInDTO> orderProducts = orderCheckoutInDTO.getOrderProducts();
-        List<OrderProductVo> orderProductVos = orderProducts.stream().map(orderProductInDTO -> {
+        List<OrderProductVO> orderProductVos = orderProducts.stream().map(orderProductInDTO -> {
             Product orderProduct = productService.getById(orderProductInDTO.getProductId());
-            OrderProductVo orderProductVo = new OrderProductVo();
+            OrderProductVO orderProductVo = new OrderProductVO();
             orderProductVo.setProductId(orderProduct.getProductId());
             orderProductVo.setProductCode(orderProduct.getProductCode());
             orderProductVo.setProductName(orderProduct.getProductName());
@@ -89,5 +93,50 @@ public class OrderServiceImpl implements OrderService {
         orderDetail.setOrderProducts(JSON.toJSONString(orderProductVos));
         orderDetailMapper.insertSelective(orderDetail);
         return orderId;
+    }
+
+    @Override
+    public Page<Order> getByCustomerId(Integer pageNum, Integer customerId) {
+        PageHelper.startPage(pageNum, 10);
+        Page<Order> page = orderMapper.selectByCustomerId(customerId);
+        return page;
+    }
+
+    @Override
+    public OrderShowOutDTO getById(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        OrderDetail orderDetail = orderDetailMapper.selectByPrimaryKey(orderId);
+
+        OrderShowOutDTO orderShowOutDTO = new OrderShowOutDTO();
+        orderShowOutDTO.setOrderId(orderId);
+        orderShowOutDTO.setStatus(order.getStatus());
+        orderShowOutDTO.setTotalPrice(order.getTotalPrice());
+        orderShowOutDTO.setRewordPoints(order.getRewordPoints());
+        orderShowOutDTO.setCreateTimestamp(order.getCreateTime().getTime());
+        orderShowOutDTO.setUpdateTimestamp(order.getUpdateTime().getTime());
+
+        orderShowOutDTO.setShipMethod(orderDetail.getShipMethod());
+        orderShowOutDTO.setShipAddress(orderDetail.getShipAddress());
+        orderShowOutDTO.setShipPrice(orderDetail.getShipPrice());
+        orderShowOutDTO.setPayMethod(orderDetail.getPayMethod());
+        orderShowOutDTO.setInvoiceAddress(orderDetail.getInvoiceAddress());
+        orderShowOutDTO.setInvoicePrice(orderDetail.getInvoicePrice());
+        orderShowOutDTO.setComment(orderDetail.getComment());
+
+        List<OrderProductVO> orderProductVOS = JSON.parseArray(orderDetail.getOrderProducts(), OrderProductVO.class);
+        orderShowOutDTO.setOrderProducts(orderProductVOS);
+
+        List<OrderHistory> orderHistories = orderHistoryService.getByOrderId(orderId);
+        List<OrderHistoryListOutDTO> orderHistoryListOutDTOS = orderHistories.stream().map(orderHistory -> {
+            OrderHistoryListOutDTO orderHistoryListOutDTO = new OrderHistoryListOutDTO();
+            orderHistoryListOutDTO.setTimestamp(orderHistory.getTime().getTime());
+            orderHistoryListOutDTO.setOrderStatus(orderHistory.getOrderStatus());
+            orderHistoryListOutDTO.setComment(orderHistory.getComment());
+            return orderHistoryListOutDTO;
+        }).collect(Collectors.toList());
+
+        orderShowOutDTO.setOrderHistories(orderHistoryListOutDTOS);
+
+        return orderShowOutDTO;
     }
 }

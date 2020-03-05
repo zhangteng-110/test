@@ -8,7 +8,7 @@ package com.zhangteng.storeback.vo;
  * @author 雷神<br />
  * @since JDK 1.8
  */
-public class OrderProductVo {
+public class OrderProductVO {
     private Integer productId;
     private String productCode;
     private String productName;
@@ -18,8 +18,6 @@ public class OrderProductVo {
     private Integer unitRewordPoints;
     private Integer totalRewordPoints;
 
-    public OrderProductVo() {
-    }
 
     public Double getUnitPrice() {
         return unitPrice;

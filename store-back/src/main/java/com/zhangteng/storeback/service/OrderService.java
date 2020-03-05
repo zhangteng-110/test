@@ -1,6 +1,9 @@
 package com.zhangteng.storeback.service;
 
+import com.github.pagehelper.Page;
 import com.zhangteng.storeback.dto.in.OrderCheckoutInDTO;
+import com.zhangteng.storeback.dto.out.OrderShowOutDTO;
+import com.zhangteng.storeback.po.Order;
 
 /**
  * ClassName: OrderService <br/>
@@ -13,5 +16,7 @@ import com.zhangteng.storeback.dto.in.OrderCheckoutInDTO;
 public interface OrderService {
     Long create(OrderCheckoutInDTO orderCheckoutInDTO,Integer customerId);
 
+    Page<Order> getByCustomerId(Integer pageNum, Integer customerId);
 
+    OrderShowOutDTO getById(Long orderId);
 }
