@@ -32,7 +32,9 @@ var app = new Vue({
             this.$message.success('成功删除商品');
         },
         handleClearCart(){
-            
+            console.log('clear cart click');
+            this.myShoppingCart = [];
+            localStorage.removeItem('myShoppingCartJson');
         }
     }
 })
