@@ -4,11 +4,9 @@ import java.util.List;
 
 public class OrderCheckoutInDTO {
     private Short shipMethod;
-    private String shipAddress;
-    private Double shipPrice;
+    private Integer shipAddressId;
     private Short payMethod;
-    private String invoiceAddress;
-    private Double invoicePrice;
+    private Integer invoiceAddressId;
     private String comment;
     private List<OrderProductInDTO> orderProducts;
 
@@ -20,21 +18,7 @@ public class OrderCheckoutInDTO {
         this.shipMethod = shipMethod;
     }
 
-    public String getShipAddress() {
-        return shipAddress;
-    }
 
-    public void setShipAddress(String shipAddress) {
-        this.shipAddress = shipAddress;
-    }
-
-    public Double getShipPrice() {
-        return shipPrice;
-    }
-
-    public void setShipPrice(Double shipPrice) {
-        this.shipPrice = shipPrice;
-    }
 
     public Short getPayMethod() {
         return payMethod;
@@ -44,21 +28,7 @@ public class OrderCheckoutInDTO {
         this.payMethod = payMethod;
     }
 
-    public String getInvoiceAddress() {
-        return invoiceAddress;
-    }
 
-    public void setInvoiceAddress(String invoiceAddress) {
-        this.invoiceAddress = invoiceAddress;
-    }
-
-    public Double getInvoicePrice() {
-        return invoicePrice;
-    }
-
-    public void setInvoicePrice(Double invoicePrice) {
-        this.invoicePrice = invoicePrice;
-    }
 
     public String getComment() {
         return comment;
@@ -74,5 +44,21 @@ public class OrderCheckoutInDTO {
 
     public void setOrderProducts(List<OrderProductInDTO> orderProducts) {
         this.orderProducts = orderProducts;
+    }
+
+    public Integer getShipAddressId() {
+        return shipAddressId;
+    }
+
+    public void setShipAddressId(Integer shipAddressId) {
+        this.shipAddressId = shipAddressId;
+    }
+
+    public Integer getInvoiceAddressId() {
+        return invoiceAddressId;
+    }
+
+    public void setInvoiceAddressId(Integer invoiceAddressId) {
+        this.invoiceAddressId = invoiceAddressId;
     }
 }
