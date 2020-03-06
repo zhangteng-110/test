@@ -115,6 +115,7 @@ public class AdministratorController {
 
     //创建
     @PostMapping("/create")
+    @CrossOrigin
     public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
         Administrator administrator = new Administrator();
         administrator.setUsername(administratorCreateInDTO.getUsername());

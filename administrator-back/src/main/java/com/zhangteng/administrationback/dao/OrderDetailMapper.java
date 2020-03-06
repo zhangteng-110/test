@@ -1,7 +1,9 @@
 package com.zhangteng.administrationback.dao;
 
 import com.zhangteng.administrationback.po.OrderDetail;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderDetailMapper {
     int deleteByPrimaryKey(Long orderId);
 
