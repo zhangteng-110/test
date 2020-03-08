@@ -1,7 +1,10 @@
 package com.zhangteng.administrationback.dao;
 
+import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.po.Customer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CustomerMapper {
     int deleteByPrimaryKey(Integer customerId);
 
@@ -14,4 +17,7 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
+
+    //customer
+    Page<Customer> search();
 }

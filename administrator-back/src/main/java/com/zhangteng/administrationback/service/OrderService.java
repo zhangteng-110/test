@@ -2,6 +2,7 @@ package com.zhangteng.administrationback.service;
 
 import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.dto.out.OrderListOutDTO;
+import com.zhangteng.administrationback.dto.out.OrderShowOutDTO;
 
 /**
  * ClassName: OrderService <br/>
@@ -13,4 +14,6 @@ import com.zhangteng.administrationback.dto.out.OrderListOutDTO;
  */
 public interface OrderService {
     Page<OrderListOutDTO> search(Integer pageNum);
+
+    OrderShowOutDTO getById(Long orderId);
 }

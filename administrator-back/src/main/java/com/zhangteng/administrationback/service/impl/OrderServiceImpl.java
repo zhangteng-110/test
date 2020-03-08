@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.dao.OrderDetailMapper;
 import com.zhangteng.administrationback.dao.OrderMapper;
 import com.zhangteng.administrationback.dto.out.OrderListOutDTO;
+import com.zhangteng.administrationback.dto.out.OrderShowOutDTO;
+import com.zhangteng.administrationback.po.Order;
 import com.zhangteng.administrationback.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +29,16 @@ public class OrderServiceImpl implements OrderService {
     public Page<OrderListOutDTO> search(Integer pageNum) {
 
         return orderMapper.search(pageNum);
+    }
+
+    @Override
+    public OrderShowOutDTO getById(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        orderDetailMapper.selectByPrimaryKey(orderId);
+        OrderShowOutDTO orderShowOutDTO = new OrderShowOutDTO();
+        orderShowOutDTO.setOrderId(orderId);
+        orderShowOutDTO.setCustomerId(order.getCustomerId());
+
+        return null;
     }
 }
