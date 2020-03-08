@@ -6,6 +6,8 @@ import com.zhangteng.administrationback.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * ClassName: AddressServiceImpl <br/>
  * Description: <br/>
@@ -23,5 +25,10 @@ public class AddressServiceImpl implements AddressService {
     public Address getById(Integer addressId) {
         Address address = addressMapper.selectByPrimaryKey(addressId);
         return address;
+    }
+
+    @Override
+    public List<Address> selectByCustomerId(Integer customerId) {
+        return addressMapper.selectByCustomerId(customerId);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: AddressController <br/>
@@ -25,7 +26,17 @@ public class AddressController {
     private AddressService addressService;
     @GetMapping("/getListByCustomerId")
     public List<AddressListOutDTO> getListByCustomerId(@RequestParam Integer customerId){
-        return null;
+        List<Address> addresses = addressService.selectByCustomerId(customerId);
+        List<AddressListOutDTO> collect = addresses.stream().map(address -> {
+            AddressListOutDTO addressListOutDTO = new AddressListOutDTO();
+            addressListOutDTO.setReceiverMobile(address.getReceiverMobile());
+            addressListOutDTO.setReceiverName(address.getReceiverName());
+            addressListOutDTO.setContent(address.getContent());
+            addressListOutDTO.setTag(address.getTag());
+            addressListOutDTO.setAddressId(address.getAddressId());
+            return addressListOutDTO;
+        }).collect(Collectors.toList());
+        return collect;
     }
     @GetMapping("/getById")
     public AddressShowOutDTO getById(Integer addressId){
