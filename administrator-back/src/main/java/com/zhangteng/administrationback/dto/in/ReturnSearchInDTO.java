@@ -1,13 +1,5 @@
 package com.zhangteng.administrationback.dto.in;
 
-/**
- * ClassName: ReturnSearchInDTO <br/>
- * Description: <br/>
- * date: 2020/2/26 17:40<br/>
- *
- * @author 雷神<br />
- * @since JDK 1.8
- */
 public class ReturnSearchInDTO {
     private Integer returnId;
     private Long orderId;
@@ -15,6 +7,8 @@ public class ReturnSearchInDTO {
     private String productCode;
     private String productName;
     private Byte status;
+    private Long startTimestamp;
+    private Long endTimestamp;
 
     public Integer getReturnId() {
         return returnId;
@@ -62,5 +56,21 @@ public class ReturnSearchInDTO {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Long getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    public void setStartTimestamp(Long startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    public Long getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    public void setEndTimestamp(Long endTimestamp) {
+        this.endTimestamp = endTimestamp;
     }
 }
