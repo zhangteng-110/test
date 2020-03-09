@@ -1,7 +1,10 @@
 package com.zhangteng.storeback.dao;
 
+import com.github.pagehelper.Page;
 import com.zhangteng.storeback.po.Return;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnMapper {
     int deleteByPrimaryKey(Integer returnId);
 
@@ -14,4 +17,7 @@ public interface ReturnMapper {
     int updateByPrimaryKeySelective(Return record);
 
     int updateByPrimaryKey(Return record);
+
+    //custom
+    Page<Return> selectPageByCustomerId(Integer customerId);
 }
