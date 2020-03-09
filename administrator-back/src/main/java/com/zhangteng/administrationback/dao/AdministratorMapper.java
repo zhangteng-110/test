@@ -2,6 +2,7 @@ package com.zhangteng.administrationback.dao;
 
 import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.po.Administrator;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,9 +21,12 @@ public interface AdministratorMapper {
 
     int updateByPrimaryKey(Administrator record);
 
+    //custom
     Administrator selectByUsername(String username);
 
-    void batchDelete(List<Integer> administratorIds);
+    Administrator selectByEmail(@Param("email") String email);
+
+    void batchDelete(@Param("administratorIds")List<Integer> administratorIds);
 
     Page<Administrator> selectList();
 }
