@@ -1,6 +1,7 @@
 package com.zhangteng.administrationback.service;
 
 import com.github.pagehelper.Page;
+import com.zhangteng.administrationback.dto.in.CustomerSetStatusInDTO;
 import com.zhangteng.administrationback.po.Customer;
 
 /**
@@ -15,4 +16,6 @@ public interface CustomerService {
     Page<Customer> search(Integer pageNum);
 
     Customer getById(Integer customerId);
+
+    void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO);
 }

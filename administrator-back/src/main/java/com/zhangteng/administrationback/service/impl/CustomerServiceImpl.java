@@ -3,6 +3,7 @@ package com.zhangteng.administrationback.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zhangteng.administrationback.dao.CustomerMapper;
+import com.zhangteng.administrationback.dto.in.CustomerSetStatusInDTO;
 import com.zhangteng.administrationback.po.Customer;
 import com.zhangteng.administrationback.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +31,14 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getById(Integer customerId) {
         return customerMapper.selectByPrimaryKey(customerId);
     }
+
+    @Override
+    public void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO) {
+        Customer customer = new Customer();
+        customer.setCustomerId(customerSetStatusInDTO.getCustomerId());
+        customer.setStatus(customerSetStatusInDTO.getStatus());
+        customerMapper.updateByPrimaryKeySelective(customer);
+    }
+
+
 }

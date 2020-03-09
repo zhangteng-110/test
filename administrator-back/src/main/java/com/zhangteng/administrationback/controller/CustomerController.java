@@ -2,6 +2,7 @@ package com.zhangteng.administrationback.controller;
 
 import com.github.pagehelper.Page;
 import com.zhangteng.administrationback.dto.in.CustomerSearchInDTO;
+import com.zhangteng.administrationback.dto.in.CustomerSetStatusInDTO;
 import com.zhangteng.administrationback.dto.out.CustomerListOutDTO;
 import com.zhangteng.administrationback.dto.out.CustomerShowOutDTO;
 import com.zhangteng.administrationback.dto.out.PageOutDTO;
@@ -71,8 +72,8 @@ public class CustomerController {
         customerShowOutDTO.setDefaultAddress(address.getContent());
         return customerShowOutDTO;
     }
-    @PostMapping("/disable")
-    public void disable(@RequestParam Integer customerId){
-
+    @PostMapping("/setStatus")
+    public void setStatus(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
+        customerService.setStatus(customerSetStatusInDTO);
     }
 }
