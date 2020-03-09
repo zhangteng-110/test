@@ -1,18 +1,10 @@
-package com.zhangteng.administrationback.po;
+package com.zhangteng.administrationback.dto.out;
 
-import java.util.Date;
-
-public class OrderHistory {
+public class OrderHistoryListOutDTO {
     private Long orderHistoryId;
-
-    private Long orderId;
-
-    private Date time;
-
+    private Long timestamp;
     private Byte orderStatus;
-
     private String comment;
-
     private Boolean customerNotified;
 
     public Long getOrderHistoryId() {
@@ -23,20 +15,12 @@ public class OrderHistory {
         this.orderHistoryId = orderHistoryId;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Byte getOrderStatus() {
@@ -52,7 +36,7 @@ public class OrderHistory {
     }
 
     public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+        this.comment = comment;
     }
 
     public Boolean getCustomerNotified() {

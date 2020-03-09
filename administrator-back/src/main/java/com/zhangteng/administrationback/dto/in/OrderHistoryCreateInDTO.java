@@ -1,27 +1,10 @@
-package com.zhangteng.administrationback.po;
+package com.zhangteng.administrationback.dto.in;
 
-import java.util.Date;
-
-public class OrderHistory {
-    private Long orderHistoryId;
-
+public class OrderHistoryCreateInDTO {
     private Long orderId;
-
-    private Date time;
-
     private Byte orderStatus;
-
     private String comment;
-
     private Boolean customerNotified;
-
-    public Long getOrderHistoryId() {
-        return orderHistoryId;
-    }
-
-    public void setOrderHistoryId(Long orderHistoryId) {
-        this.orderHistoryId = orderHistoryId;
-    }
 
     public Long getOrderId() {
         return orderId;
@@ -29,14 +12,6 @@ public class OrderHistory {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
     }
 
     public Byte getOrderStatus() {
@@ -52,7 +27,7 @@ public class OrderHistory {
     }
 
     public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+        this.comment = comment;
     }
 
     public Boolean getCustomerNotified() {
