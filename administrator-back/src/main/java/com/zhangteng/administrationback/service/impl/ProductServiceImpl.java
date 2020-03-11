@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.zhangteng.administrationback.dao.ProductDetailMapper;
 import com.zhangteng.administrationback.dao.ProductMapper;
 import com.zhangteng.administrationback.dto.in.ProductCreateInDTO;
+import com.zhangteng.administrationback.dto.in.ProductSearchInDTO;
 import com.zhangteng.administrationback.dto.in.ProductUpdateInDTO;
 import com.zhangteng.administrationback.dto.out.ProductListOutDTO;
 import com.zhangteng.administrationback.dto.out.ProductShowOutDTO;
@@ -97,14 +98,6 @@ public class ProductServiceImpl implements ProductService {
         productMapper.batchDelete(productIds);
         productDetailMapper.batchDelete(productIds);
     }
-
-    @Override
-    public Page<ProductListOutDTO> search(Integer pageNum) {
-        PageHelper.startPage(pageNum, 10);
-        Page<ProductListOutDTO> page = productMapper.search();
-        return page;
-    }
-
     @Override
     public ProductShowOutDTO getById(Integer productId) {
         Product product = productMapper.selectByPrimaryKey(productId);
@@ -128,5 +121,17 @@ public class ProductServiceImpl implements ProductService {
         productShowOutDTO.setOtherPicUrls(otherPicUrls);
 
         return productShowOutDTO;
+    }
+
+    @Override
+    public Page<ProductListOutDTO> search(ProductSearchInDTO productSearchInDTO, Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        Page<ProductListOutDTO> page = productMapper
+                .search(productSearchInDTO.getProductCode(),
+                        productSearchInDTO.getStatus(),
+                        productSearchInDTO.getStockQuantity(),
+                        productSearchInDTO.getPrice(),
+                        productSearchInDTO.getProductName());
+        return page;
     }
 }
