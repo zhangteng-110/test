@@ -3,6 +3,7 @@ package com.zhangteng.administrationback.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zhangteng.administrationback.dao.CustomerMapper;
+import com.zhangteng.administrationback.dto.in.CustomerSearchInDTO;
 import com.zhangteng.administrationback.dto.in.CustomerSetStatusInDTO;
 import com.zhangteng.administrationback.po.Customer;
 import com.zhangteng.administrationback.service.CustomerService;
@@ -22,9 +23,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
     @Override
-    public Page<Customer> search(Integer pageNum) {
+    public Page<Customer> search(CustomerSearchInDTO customerSearchInDTO, Integer pageNum) {
         PageHelper.startPage(pageNum,10);
-        return customerMapper.search();
+        return customerMapper.search(customerSearchInDTO.getUsername(),
+                customerSearchInDTO.getRealName(),
+                customerSearchInDTO.getMobile(),
+                customerSearchInDTO.getEmail(),
+                customerSearchInDTO.getStatus());
     }
 
     @Override

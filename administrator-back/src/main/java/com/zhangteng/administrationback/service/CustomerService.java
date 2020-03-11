@@ -1,6 +1,7 @@
 package com.zhangteng.administrationback.service;
 
 import com.github.pagehelper.Page;
+import com.zhangteng.administrationback.dto.in.CustomerSearchInDTO;
 import com.zhangteng.administrationback.dto.in.CustomerSetStatusInDTO;
 import com.zhangteng.administrationback.po.Customer;
 
@@ -13,7 +14,7 @@ import com.zhangteng.administrationback.po.Customer;
  * @since JDK 1.8
  */
 public interface CustomerService {
-    Page<Customer> search(Integer pageNum);
+    Page<Customer> search(CustomerSearchInDTO customerSearchInDTO, Integer pageNum);
 
     Customer getById(Integer customerId);
 
