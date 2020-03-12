@@ -137,7 +137,7 @@ public class AdministratorController {
         administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
         administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
         administrator.setCreateTime(new Date());
-
+        administrator.setStatus(administratorCreateInDTO.getStatus());
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());
         administrator.setEncryptedPassword(bcryptHashString);
 
